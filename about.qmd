@@ -1,0 +1,58 @@
+---
+title: "Climatic niche characterization in R"
+author: "Achyut Kumar Banerjee"
+date: last-modified
+format: 
+  html:
+    theme: cosmo
+    toc: true
+    toc-location: right
+    code-copy: true        # Adds a copy button to code blocks
+    self-contained: true   # Keeps images/styles inside one HTML file
+    df-print: paged        # Makes large data frames scrollable
+    grid:
+      sidebar-width: 250px
+---
+
+# Premise
+
+When we use Species Distribution Models (SDMs) to predict where an invasive species might spread, we typically train our models on environmental data from its native range and project them onto the invasive range. This process of "transferring" a model across geographic space relies entirely on the Niche Conservatism Hypothesis.
+
+**Why Niche Conservatism is the "SDM Assumption"**
+
+Niche conservatism is the principle that a species will maintain its environmental requirements (its "niche") even when moved to a new continent. If a species is conservative, we can use its native habitat preferences to accurately predict its future invasion footprint.
+
+**And what could go wrong if untested?**
+
+If we skip testing for niche conservatism before running our SDM, we risk two major types of errors:
+
+-   Underestimation (Niche Expansion): If the species undergoes niche expansion in its new range (adapting to colder waters or different salinity than what is found in its native range), a model based only on native data will fail to predict its true invasion potential.
+-   Overestimation (Niche Unfilling): If the species has not yet reached its full potential in the new range (niche unfilling), we might assume it is less "fit" than it actually is, leading to a false sense of security in areas that are actually at high risk.
+
+**How can we test the assumption?**
+
+To ensure our SDMs are robust, we use the COUE framework to quantify exactly how much of the native niche is being conserved (Stability) versus how much is changing (Expansion).
+
+-   COUE = Centroid shift, Overlap, Unfilling, and Expansion
+-   The null hypothesis: it assumes that the species will occupy the same climatic space in its invasive range that it does in its native range.
+
+[Read more](https://doi.org/10.1016/j.tree.2014.02.009)
+
+Simultaneously, MESS (Multivariate Environmental Similarity Surfaces) analysis identifies areas of "non-analog" or novel climates. This is crucial for SDM because predictions in areas where the MESS value is negative (novel climate) are statistically unreliable; we are essentially asking the model to guess how the species will behave in a climate it has never experienced before.
+
+**Why is MESS crucial?**
+
+MESS analysis answers one fundamental question: **"Has the model seen these environmental conditions before?"**
+
+When we train a model on a species in its native range (e.g., South America) and project it to its introduced range (e.g., India), the model learns the specific temperature and rainfall patterns of the native range. If parts of India have climates that are **hotter, wetter, or drier** than anything found in the native training data, the model is forced to **extrapolate**.
+
+**1. Identifies Model Reliability**
+
+-   **Interpolation (Safe):** In areas where environmental conditions are similar to the training data, the model predictions are reliable.
+
+-   **Extrapolation (Risky):** In areas with "novel" environments (conditions the model never saw during training), the mathematical algorithm essentially guesses. These predictions are highly uncertain and should be interpreted with extreme caution.
+
+**2. Prevents False Conclusions**
+Without MESS, we might look at a map of India and see a "low suitability" prediction for a species. However, if that area is a novel environment, the "low" score might just be a mathematical artifact, not biological reality. MESS flags these areas so we don't make incorrect management decisions.
+
+[Read more](https://doi.org/10.1111/j.1472-4642.2012.00887.x)
