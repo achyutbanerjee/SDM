@@ -263,9 +263,9 @@ This line of code performs the **Niche Equivalency Test**, a rigorous statistica
 
 The `eq.test` object will contain a **p-value**.
 
--   **p \> 0.05**: The null hypothesis is rejected. The niches are **not equivalent** (they are significantly different).
+-   **p \> 0.05**: **Accepted Hypothesis:** The niches are **Equivalent**. The Native and Invasive niches are effectively the same. Any slight difference is likely just due to sampling noise or the available environment, not a biological shift.
 
--   **p \< 0.05**: The niches are **equivalent** (the observed overlap is within the range of what we expect if the niches were identical).
+-   **p \< 0.05**: **Rejected Hypothesis:** The niches are **Not Equivalent**. The climatic conditions *Senna* occupies in India are statistically distinct from those in South America. The "Niche Shift" is real (or the available environments are so different that the niches *look* different).
 
 The `ecospat.plot.overlap.test` command generates a histogram to visualize the results of the Niche Equivalency Test. The resulting graph compares our actual data against random chance:
 

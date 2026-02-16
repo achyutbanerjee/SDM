@@ -52,7 +52,6 @@ When we train a model on a species in its native range (e.g., South America) and
 
 -   **Extrapolation (Risky):** In areas with "novel" environments (conditions the model never saw during training), the mathematical algorithm essentially guesses. These predictions are highly uncertain and should be interpreted with extreme caution.
 
-**2. Prevents False Conclusions**
-Without MESS, we might look at a map of India and see a "low suitability" prediction for a species. However, if that area is a novel environment, the "low" score might just be a mathematical artifact, not biological reality. MESS flags these areas so we don't make incorrect management decisions.
+**2. Prevents False Conclusions** Without MESS, we might look at a map of India and see a "low suitability" prediction for a species. However, if that area is a novel environment, the "low" score might just be a mathematical artifact, not biological reality. MESS flags these areas so we don't make incorrect management decisions.
 
 [Read more](https://doi.org/10.1111/j.1472-4642.2012.00887.x)
