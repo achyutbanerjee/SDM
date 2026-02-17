@@ -378,9 +378,28 @@ This code performs a **Niche Dynamic Analysis**.
 ```{r}
 ecospat.plot.niche.dyn(grid.clim.nat, grid.clim.inv, quant=0.25, interest=2,
                        title= "Niche Overlap", name.axis1="PCA axis 1",
-                       name.axis2="PCA axis 2", col.unf = "lightseagreen",
-                       col.exp = "lightcoral", col.stab = "lightgoldenrod",
-                       colZ1 = "seagreen",colZ2 = "indianred")
+                       name.axis2="PCA axis 2")
+#colZ1=native extent
+#colZ2=Introduced extent
+
+ecospat.shift.centroids(scores.sp.nat, scores.sp.inv, scores.clim.nat, 
+                        scores.clim.inv,col = "black")
+```
+
+```{r}
+# We want to add a set of different colours 
+ecospat.plot.niche.dyn(grid.clim.nat, grid.clim.inv, quant=0.25, interest=2,
+   title= "Niche Overlap", name.axis1="PCA axis 1", name.axis2="PCA axis 2",
+   
+   # FILLS (Use darker colors here to prevent fading)
+   col.unf = "#006d2c",   # Deep Forest Green (Native)
+   col.exp = "#d94801",   # Deep Orange/Red (Expansion)
+   col.stab = "#7e0068",  # Deep Purple (Overlap - stands out clearly)
+
+   # DENSITY LINES (Keep these dark for outlines)
+   colZ1 = "#00441b",     # Darker Green
+   colZ2 = "#7f2704")     # Darker Red
+
 #colZ1=native extent
 #colZ2=Introduced extent
 
