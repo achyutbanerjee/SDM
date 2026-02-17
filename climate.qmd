@@ -389,7 +389,7 @@ ecospat.shift.centroids(scores.sp.nat, scores.sp.inv, scores.clim.nat,
 ```{r}
 # We want to add a set of different colours 
 ecospat.plot.niche.dyn(grid.clim.nat, grid.clim.inv, quant=0.25, interest=2,
-   title= "Niche Overlap", name.axis1="PCA axis 1", name.axis2="PCA axis 2",
+   title= "", name.axis1="PCA axis 1", name.axis2="PCA axis 2",
    
    # FILLS (Use darker colors here to prevent fading)
    col.unf = "#006d2c",   # Deep Forest Green (Native)
@@ -412,11 +412,11 @@ ecospat.shift.centroids(scores.sp.nat, scores.sp.inv, scores.clim.nat,
 
 This creates the famous "Niche Shift" plot. It visualizes the metrics calculated above on a 2D plane (PCA Axis 1 vs PCA Axis 2).
 
-**`col.stab = "lightgoldenrod"` (Yellow area):** **Stability.** This is the **Overlap**. This area represents climates where the species is found in BOTH native and introduced ranges.
+**`col.stab = "#7e0068"`:** **Stability.** This is the **Overlap**. This area represents climates where the species is found in BOTH native and introduced ranges.
 
-**`col.unf = "lightseagreen"` (Green area):** **Unfilling.** This represents climates the species occupies in its native range but **does not** occupy in its introduced range (even if that climate exists there). This suggests potential areas the species could still invade in the future.
+**`col.unf = "#006d2c"`:** **Unfilling.** This represents climates the species occupies in its native range but **does not** occupy in its introduced range (even if that climate exists there). This suggests potential areas the species could still invade in the future.
 
-**`col.exp = "lightcoral"` (Red area):** **Expansion.** This represents climates the species occupies in its introduced range but **does not** occupy in its native range.
+**`col.exp = "#d94801"`:** **Expansion.** This represents climates the species occupies in its introduced range but **does not** occupy in its native range.
 
 -   **`colZ1` & `colZ2`**: These outline the *available* background climate in the Native (Z1) and Invasive (Z2) ranges (the borders of the plot).
 
@@ -428,8 +428,23 @@ The arrows onto the plot show the **direction** of the shift.
 
 -   **What the arrows show:**
 
-    1.  **Climate Availability Shift:** Did the invasive region simply have different weather available compared to the native region?
-    2.  **Species Centroid Shift:** Did the "center" of the species population move? (e.g., did the population center move toward hotter temperatures?)
+-   **The "Environment" Arrow (Usually Dashed/Thinner):**
+
+    -   **What it tracks:** The center of the **Background Climate**. It connects the average climate of the Native region (entire study area) to the average climate of the Invasive region.
+
+-   **The "Species" Arrow (Usually Solid/Thicker):**
+
+    -   **What it tracks:** The center of the **Species' Density** (where the organism is most abundant). It connects the peak density of the species in the Native range to its peak density in the Invasive range.
+
+-   **Scenario A: The Arrows are Parallel (Stability)**
+
+    -   **Visual:** Both arrows point in the same direction and have similar lengths.
+    -   **Interpretation:** The species is just "going with the flow." The species' centroid shifted only because the *available climate* shifted.
+
+-   **Scenario B: The Arrows Diverge (Expansion/Shift)**
+
+    -   **Visual:** The "Species" arrow points in a different direction than the "Environment" arrow.
+    -   **Interpretation:** The species is actively occupying a different part of the climate gradient in the new range, relative to what is available.
 :::
 
 # MESS analysis
