@@ -4,6 +4,7 @@ author: "Achyut Kumar Banerjee"
 date: last-modified
 format: 
   html:
+    embed-resources: true
     theme: cosmo
     toc: true
     toc-location: right
