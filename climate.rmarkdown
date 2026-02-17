@@ -45,6 +45,7 @@ div.sourceCode {
 }
 ```
 
+
 Here, we are using *Spartina alterniflora*. The plant is indigenous to the intertidal wetlands along the Atlantic and Gulf Coasts of the Americas. Outside its home range, it has become one of the most successful marine invasive species in China, Europe and Pacific North America, primarily through intentional introductions for coastal erosion control or accidental transport in ballast water.
 
 ## **Objectives**
@@ -61,6 +62,7 @@ We will use the following data:
 
 # Install and load packages
 
+
 ```{r}
 #| label: setup
 #| output: false
@@ -68,20 +70,25 @@ library(ecospat)
 library(adehabitatHR)
 ```
 
+
 # Set the working directory
+
 
 ```{r}
 knitr::opts_knit$set(root.dir = "/Users/achyutkumarbanerjee/Library/CloudStorage/OneDrive-Personal/R_codes/quarto/SDM")
 ```
 
+
 # COUE analysis
 
 ## Read data
+
 
 ```{r}
 nat<-read.csv("climaticnichedata/ecospat.native.csv") # for native range
 inv<-read.csv("climaticnichedata/ecospat.invasive.csv") # for invasive range
 ```
+
 
 These files should have the following information: longitude and latitude and their corresponding values of the 19 bioclimatic variables. The long-lat values are of the locations where the species is present and the background. An additional column (here named 'sp') is attached at the end to designate presence (1) and background (0) locations. Background locations are proxies for absences (pseudo-absence).
 
@@ -89,9 +96,11 @@ These files should have the following information: longitude and latitude and th
 
 ### Conducting PCA
 
+
 ```{r}
 pca.env <- dudi.pca(rbind(nat,inv)[,3:21],scannf=F,nf=2)
 ```
+
 
 ::: {.callout-tip appearance="simple"}
 **What are we doing here?**
@@ -109,9 +118,11 @@ pca.env <- dudi.pca(rbind(nat,inv)[,3:21],scannf=F,nf=2)
 -   **`pca.env`**: The resulting PCA object, containing information like the variable loadings and row scores, is assigned to the variable pca.env for further use.
 :::
 
+
 ```{r}
 ecospat.plot.contrib(contrib=pca.env$co, eigen=pca.env$eig)
 ```
+
 
 ::: {.callout-tip appearance="simple"}
 **What are we seeing here?**
@@ -133,6 +144,7 @@ The resulting "correlation circle" typically displays arrows originating from th
 -   **Grouping**: Arrows that are close together indicate variables that are highly correlated with each other (e.g., "Max Temperature" and "Mean Temperature").
 :::
 
+
 ```{r}
 #PCA scores for the whole study area
 scores.globclim <- pca.env$li
@@ -149,6 +161,7 @@ scores.clim.nat <- suprow(pca.env,nat[,3:21])$li
 # PCA scores for the whole introduced study area
 scores.clim.inv <- suprow(pca.env,inv[,3:21])$li
 ```
+
 
 ::: {.callout-tip appearance="simple"}
 **Key functions:**
@@ -172,6 +185,7 @@ scores.clim.inv: similar like above. Defines the **available climate** in the in
 
 ### Estimating occurrence densities
 
+
 ```{r}
 #Grid of the native niche
 grid.clim.nat <- ecospat.grid.clim.dyn(glob=scores.globclim,
@@ -185,6 +199,7 @@ grid.clim.inv <- ecospat.grid.clim.dyn(glob=scores.globclim,
                                        sp=scores.sp.inv, R=100,
                                        th.sp=0)
 ```
+
 
 ::: {.callout-tip appearance="simple"}
 **What are we doing here?**
@@ -212,11 +227,13 @@ The result, `grid.clim.nat` and `grid.clim.inv` are the lists object containing 
 
 ### Estimating overlap
 
+
 ```{r}
 #Compute Schoener's D, index of niche overlap
 D.overlap <- ecospat.niche.overlap (grid.clim.nat, grid.clim.inv, cor=T)$D
 D.overlap
 ```
+
 
 ::: {.callout-tip appearance="simple"}
 **What are we doing here?**
@@ -242,6 +259,7 @@ The value stored in `D.overlap` tells us the degree of niche conservatism ([read
 
 ### Performing niche equivalency test
 
+
 ```{r}
 #Niche equivalency test H1
 #Is the overlap between the native and introduced niche higher than two random niches?
@@ -249,6 +267,7 @@ eq.test <- ecospat.niche.equivalency.test(grid.clim.nat, grid.clim.inv, rep=100)
 #Plot
 ecospat.plot.overlap.test(eq.test, "D", "Equivalency")
 ```
+
 
 ::: {.callout-tip appearance="simple"}
 **What are we doing here?**
@@ -290,6 +309,7 @@ The `ecospat.plot.overlap.test` command generates a histogram to visualize the r
 
 ### Performing niche similarity test
 
+
 ```{r}
 #Niche similarity test H1
 #Is the overlap between the native and introduced niches higher than 
@@ -299,6 +319,7 @@ sim.test <- ecospat.niche.similarity.test(grid.clim.nat, grid.clim.inv,
                                           rand.type=2)
 ecospat.plot.overlap.test(sim.test, "D", "Similarity")
 ```
+
 
 ::: {.callout-tip appearance="simple"}
 **What are we doing here?**
@@ -350,10 +371,12 @@ This means the result is **not statistically significant**. You cannot reject th
 
 ### Quantifying niche dynamics
 
+
 ```{r}
 niche.dyn <- ecospat.niche.dyn.index (grid.clim.nat, grid.clim.inv,intersection=0.1)
 niche.dyn
 ```
+
 
 ::: {.callout-tip appearance="simple"}
 **What are we doing here?**
@@ -374,6 +397,7 @@ This code performs a **Niche Dynamic Analysis**.
 
 -   **Unfilling (U):** The proportion of the native niche that is *not* occupied in the invasive/introduced range. High Unfilling means there are climates the species likes (from home) that exist in its introduced range, but it hasn't reached them yet (it's likely still spreading).
 :::
+
 
 ```{r}
 ecospat.plot.niche.dyn(grid.clim.nat, grid.clim.inv, quant=0.25, interest=2,
@@ -406,6 +430,7 @@ ecospat.plot.niche.dyn(grid.clim.nat, grid.clim.inv, quant=0.25, interest=2,
 ecospat.shift.centroids(scores.sp.nat, scores.sp.inv, scores.clim.nat, 
                         scores.clim.inv,col = "black")
 ```
+
 
 ::: {.callout-tip appearance="simple"}
 **What are we seeing here?**
@@ -451,17 +476,22 @@ The arrows onto the plot show the **direction** of the shift.
 
 ## Read data
 
+
 ```{r}
 mess.data<-read.csv("climaticnichedata/mess_data.csv")
 ```
 
+
 The data file contains occurrence locations of both native and introduced ranges and the corresponding bioclimatic variables. An additional column at the end (here named 'sp') has the range information.
+
 
 ```{r}
 mess.data<-mess.data[c(1:21)]
 ```
 
+
 ## Preparing data
+
 
 ```{r}
 #Defining projection and calibration data sets
@@ -469,17 +499,22 @@ proj<- mess.data[1:538,] #Projection data set (introduced range)
 cal<-mess.data[538:1421,] #Calibration data set (native range)
 ```
 
+
 ## Analysis
+
 
 ```{r}
 mess.object<-ecospat.mess(proj,cal,w="default")
 ```
 
+
 Plot
+
 
 ```{r}
 ecospat.plot.mess(mess.object = mess.object)
 ```
+
 
 ::: {.callout-tip appearance="simple"}
 **What are we seeing here?**
@@ -496,3 +531,4 @@ In a nutshell, a MESS analysis produces a map with a scale of positive and negat
 
 -   **Negative Values (Red):** **Novel Environment.** At least one environmental variable (e.g., Max Temperature) is outside the range of values seen in the training data. The more negative the value, the more dissimilar the environment. **Model predictions here are unreliable.**
 :::
+
