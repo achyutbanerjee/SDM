@@ -47,7 +47,24 @@ div.sourceCode {
 
 # About the species
 
-Here, we are using *Spartina alterniflora*. The plant is indigenous to the intertidal wetlands along the Atlantic and Gulf Coasts of the Americas. Outside its home range, it has become one of the most successful marine invasive species in China, Europe and Pacific North America, primarily through intentional introductions for coastal erosion control or accidental transport in ballast water.
+**Origin & Distribution:**
+
+-   **Native Range:** Neotropics (Central and South America), where it is widespread but often kept in check by natural enemies.
+-   **Invasive Range (Focus: India):** A major invasive threat in the **humid tropical and subtropical zones of India**.
+    -   **Key Hotspots:** Heavily infests **Northeast India** (Assam, Arunachal Pradesh), the **Western Ghats** (Kerala, Karnataka), and the Andaman & Nicobar Islands.
+
+    -   **Habitat:** Thrives in disturbed forests, tea plantations, agricultural fallows, and riverbanks.
+
+**Ecological Traits (Relevance to Niche Modeling):**
+
+-   **Growth Habit:** A fast-growing, perennial creeper/climber. It is known as "Mile-a-minute" because of its rapid vegetative growth (up to 8–9 cm in 24 hours).
+-   **Mechanism of Impact:** It is a **"smothering" invasive**; it climbs over native vegetation and crops, blocking sunlight and physically crushing underlying plants. It also releases allelopathic chemicals that inhibit the growth of other plants.
+-   **Dispersal:** Produces thousands of lightweight seeds dispersed by wind (anemochory), allowing for rapid climatic tracking and range expansion.
+
+**Climatic Niche Characteristics:**
+
+-   **Grinnellian Constraints:** The species is strongly limited by **humidity and temperature**. It requires high rainfall and cannot tolerate frost or prolonged drought.
+-   **Niche Conservatism vs. Shift:** In India, it closely follows the **humid tropical climatic envelope**. However, recent reports suggest it is expanding into slightly drier and cooler elevations in the Himalayas, making it a perfect candidate to test for **Niche Shift** vs. **Niche Conservatism** at the margins of its range.
 
 # Objectives
 
