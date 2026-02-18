@@ -1,5 +1,5 @@
 ---
-title: "Climatic niche characterization"
+title: "SDM Workshop_Mikania"
 author: "Achyut Kumar Banerjee"
 date: last-modified
 format: 
@@ -47,31 +47,11 @@ div.sourceCode {
 
 # About the species
 
-**Study Species: *Spartina alterniflora*** (Smooth Cordgrass)
+Here, we are using *Spartina alterniflora*. The plant is indigenous to the intertidal wetlands along the Atlantic and Gulf Coasts of the Americas. Outside its home range, it has become one of the most successful marine invasive species in China, Europe and Pacific North America, primarily through intentional introductions for coastal erosion control or accidental transport in ballast water.
 
--   **Taxonomic Note:** Recently reclassified by some authorities as ***Sporobolus alterniflorus*** (Loisel.) P.M.Peterson & Saarela. However, in ecological and invasive species literature, *Spartina alterniflora* remains the widely accepted standard.
+# Objectives
 
--   **Functional Type:** Long-lived, rhizomatous perennial grass (C4 photosynthetic pathway); a "Foundation Species" or "Ecosystem Engineer" in intertidal mudflats.
-
-**Geographic Distribution:**
-
--   **Native Range:** Western Atlantic coast of North America. Our data specifically clusters in the **subtropical southeastern USA** (e.g., Florida, \~25°N), where it inhabits warm, microtidal salt marshes.
-
--   **Invasive Range:** A bipolar disjunction in your dataset:
-
-    -   **Pacific Northwest (USA/Canada):** Temperate, macrotidal estuaries (e.g., Willapa Bay, Puget Sound, \~48°N).
-
-    -   **South America (Patagonia/Argentina):** Cold-temperate, rocky/muddy shores (e.g., Tierra del Fuego, \~55°S).
-
-**Ecological Context for Niche Modeling:**
-
--   **Invasion History:** Intentionally introduced for erosion control and accidentally spread via oyster aquaculture and ballast water.
-
--   **Key Traits:** High salinity tolerance, rapid clonal growth via rhizomes, and the ability to oxygenate anaerobic sediments, allowing it to colonize lower intertidal zones than many native species (biotic release).
-
-# **Objectives**
-
--   To test spatial niche conservatism between native and non-native ranges of *Spartina alterniflora* using the centroid shift, overlap, unfilling, and expansion (COUE) framework.
+-   To test spatial niche conservatism between native and non-native ranges of *Mikania micrantha* using the centroid shift, overlap, unfilling, and expansion (COUE) framework.
 -   To assess environmental analogy between two ranges using multivariate environmental similarity surface (MESS) analysis.
 
 # Install and load packages
@@ -90,8 +70,8 @@ library(rnaturalearthdata)
 
 ```{r}
 # Read data
-native_data <- read.csv("climaticnichedata/ecospat.native.csv")
-invasive_data <- read.csv("climaticnichedata/ecospat.invasive.csv")
+native_data <- read.csv("data_Mikania/ecospat.native.csv")
+invasive_data <- read.csv("data_Mikania/ecospat.invasive.csv")
 native_subset<-subset(native_data,native_data$sp==1)
 invasive_subset<-subset(invasive_data,invasive_data$sp==1)
 
@@ -123,8 +103,8 @@ ggplot(data = world) +
 ## Read data
 
 ```{r}
-nat<-read.csv("climaticnichedata/ecospat.native.csv") # for native range
-inv<-read.csv("climaticnichedata/ecospat.invasive.csv") # for invasive range
+nat<-read.csv("data_Mikania/ecospat.native.csv") # for native range
+inv<-read.csv("data_Mikania/ecospat.invasive.csv") # for invasive range
 ```
 
 These files should have the following information: longitude and latitude and their corresponding values of the 19 bioclimatic variables. The long-lat values are of the locations where the species is present and the background. An additional column (here named 'sp') is attached at the end to designate presence (1) and background (0) locations. Background locations are proxies for absences (pseudo-absence).
@@ -496,12 +476,7 @@ The arrows onto the plot show the **direction** of the shift.
 ## Read data
 
 ```{r}
-mess.data<-read.csv("climaticnichedata/mess_data.csv")
-```
-
-The data file contains occurrence locations of both native and introduced ranges and the corresponding bioclimatic variables. An additional column at the end (here named 'sp') has the range information.
-
-```{r}
+mess.data<-read.csv("data_Mikania/mess_data.csv")
 mess.data<-mess.data[c(1:21)]
 ```
 
@@ -509,8 +484,8 @@ mess.data<-mess.data[c(1:21)]
 
 ```{r}
 #Defining projection and calibration data sets
-proj<- mess.data[1:538,] #Projection data set (introduced range)
-cal<-mess.data[538:1421,] #Calibration data set (native range)
+proj<- mess.data[657:1087,] #Projection data set (introduced range)
+cal<-mess.data[1:656,] #Calibration data set (native range)
 ```
 
 ## Analysis
@@ -519,7 +494,7 @@ cal<-mess.data[538:1421,] #Calibration data set (native range)
 mess.object<-ecospat.mess(proj,cal,w="default")
 ```
 
-Plot
+## Plot
 
 ```{r}
 ecospat.plot.mess(mess.object = mess.object)

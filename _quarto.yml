@@ -15,9 +15,12 @@ website:
       - text: "About"
         href: about.qmd
         contents: about.qmd
-      - section: "Climatic niche characterization"
+      - section: "Spartina"
         href: climate.qmd
         contents: climate.qmd
+      - section: "Mikania"
+        href: mikania.qmd
+        contents: mikania.qmd
 format:
   html:
     theme: cosmo
