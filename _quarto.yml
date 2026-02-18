@@ -16,8 +16,8 @@ website:
         href: about.qmd
         contents: about.qmd
       - section: "Spartina"
-        href: climate.qmd
-        contents: climate.qmd
+        href: spartina.qmd
+        contents: spartina.qmd
       - section: "Mikania"
         href: mikania.qmd
         contents: mikania.qmd
