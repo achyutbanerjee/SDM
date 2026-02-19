@@ -143,7 +143,7 @@ pca.env <- dudi.pca(rbind(nat,inv)[,3:21],scannf=F,nf=2)
 
 -   **`rbind(nat,inv)`**: This combines two dataframes—one representing the species' "native" range (nat) and the other its "invasive" range (inv)—by stacking them row-wise. This ensures that the PCA is calculated based on the combined environmental space of both ranges.
 
--   **`dudi.pca(...)`**: This is the core function from the ade4 R package used to perform the Principal Component Analysis.
+-   **`dudi.pca(...)`**: This is the core function from the adehabitatHR package used to perform the Principal Component Analysis.
 
 -   **`scannf = F`**: This argument (short for "scan number of factors") is set to FALSE to prevent the program from opening an interactive prompt asking the user to choose the number of axes to retain.
 
@@ -161,7 +161,7 @@ ecospat.plot.contrib(contrib=pca.env$co, eigen=pca.env$eig)
 
 This command generates a **correlation circle** (also known as a variable contribution plot) to visualize how the original environmental variables relate to the new principal component axes.
 
-**`ecospat.plot.contrib(...)`**: This is a function from the `ecospat` R package specifically designed to create a bar plot showing the contribution of variables to the PCA axes.
+**`ecospat.plot.contrib(...)`**: This is a function from the `ecospat` R package specifically designed to create a plot showing the contribution of variables to the PCA axes.
 
 `pca.env$co` extracts the column coordinates (or loadings) from the PCA object. These coordinates represent the correlation between the original environmental variables and the new principal component axes.
 
@@ -183,13 +183,13 @@ scores.globclim <- pca.env$li
 #PCA scores for the species native distribution
 scores.sp.nat <- suprow(pca.env,nat[which(nat[,22]==1),3:21])$li
 
-#PCA scores for the species introduced distribution
+#PCA scores for the species invasive distribution
 scores.sp.inv <- suprow(pca.env,inv[which(inv[,22]==1),3:21])$li
 
 # PCA scores for the whole native study area
 scores.clim.nat <- suprow(pca.env,nat[,3:21])$li
 
-# PCA scores for the whole introduced study area
+# PCA scores for the whole invasive study area
 scores.clim.inv <- suprow(pca.env,inv[,3:21])$li
 ```
 
@@ -222,7 +222,7 @@ grid.clim.nat <- ecospat.grid.clim.dyn(glob=scores.globclim,
                                        sp=scores.sp.nat, R=100,
                                        th.sp=0)
 
-#Grid of the introduced niche
+#Grid of the invasive niche
 grid.clim.inv <- ecospat.grid.clim.dyn(glob=scores.globclim,
                                        glob1=scores.clim.inv,
                                        sp=scores.sp.inv, R=100,
@@ -232,7 +232,7 @@ grid.clim.inv <- ecospat.grid.clim.dyn(glob=scores.globclim,
 ::: {.callout-tip appearance="simple"}
 **What are we doing here?**
 
-This line of code is the core step in Broennimann's framework for niche analysis. It transforms the raw PCA points (which you calculated in the previous steps) into a **density grid** representing the species' realized niche in its native range.
+This line of code is the core step in Broennimann's framework for niche analysis. It transforms the raw PCA points (which we calculated in the previous steps) into a **density grid** representing the species' realized niche in its native and invasive ranges.
 
 **What do the functions do?**
 
@@ -287,7 +287,7 @@ The value stored in `D.overlap` tells us the degree of niche conservatism ([read
 
 ```{r}
 #Niche equivalency test H1
-#Is the overlap between the native and introduced niche higher than two random niches?
+#Is the overlap between the native and invasive niche higher than two random niches?
 eq.test <- ecospat.niche.equivalency.test(grid.clim.nat, grid.clim.inv, rep=100)
 #Plot
 ecospat.plot.overlap.test(eq.test, "D", "Equivalency")
@@ -335,8 +335,8 @@ The `ecospat.plot.overlap.test` command generates a histogram to visualize the r
 
 ```{r}
 #Niche similarity test H1
-#Is the overlap between the native and introduced niches higher than 
-#when the invasive niche is randomly introduced in the introduced study area?
+#Is the overlap between the native and invasive niches higher than 
+#when the invasive niche is randomly invasive in the invasive study area?
 sim.test <- ecospat.niche.similarity.test(grid.clim.nat, grid.clim.inv,
                                           rep=1000,
                                           rand.type=2)
@@ -350,7 +350,7 @@ This code performs the **Niche Similarity Test**, which is distinct from the Equ
 
 **What do the functions do?**
 
-`ecospat.niche.similarity.test`: This tests for Niche Conservatism. It determines if the species, when introduced to a new range (invasive), is selecting climatic conditions that are similar to its native range, or if it is just occupying whatever climate happens to be available.
+`ecospat.niche.similarity.test`: This tests for Niche Conservatism. It determines if the species, when invasive to a new range (invasive), is selecting climatic conditions that are similar to its native range, or if it is just occupying whatever climate happens to be available.
 
 **`rand.type = 2`**: This is the critical argument. It specifies that the test should randomly shift the **invasive niche** within the **invasive background** (while keeping the native niche fixed). It simulates: "If this species settled randomly in the invasive region, what would the overlap look like?"
 
@@ -411,19 +411,17 @@ This code performs a **Niche Dynamic Analysis**.
 
 **What to look for in the output (`niche.dyn`):**
 
--   **Expansion (E):** The proportion of the invasive niche that exists in climates *never* occupied in the native range. High Expansion means the species is surviving in new climates in its introduced range that it doesn't tolerate in its native range.
+-   **Expansion (E):** The proportion of the invasive niche that exists in climates *never* occupied in the native range. High Expansion means the species is surviving in new climates in its invasive range that it doesn't tolerate in its native range.
 
--   **Stability (S):** The proportion of the niche shared between both ranges. High Stability means the species is behaving predictably; it likes the same weather in its introduced range as it does at home.
+-   **Stability (S):** The proportion of the niche shared between both ranges. High Stability means the species is behaving predictably; it likes the same weather in its invasive range as it does at home.
 
--   **Unfilling (U):** The proportion of the native niche that is *not* occupied in the invasive/introduced range. High Unfilling means there are climates the species likes (from home) that exist in its introduced range, but it hasn't reached them yet (it's likely still spreading).
+-   **Unfilling (U):** The proportion of the native niche that is *not* occupied in the invasive/invasive range. High Unfilling means there are climates the species likes (from home) that exist in its invasive range, but it hasn't reached them yet (it's likely still spreading).
 :::
 
 ```{r}
 ecospat.plot.niche.dyn(grid.clim.nat, grid.clim.inv, quant=0.25, interest=2,
-                       title= "Niche Overlap", name.axis1="PCA axis 1",
+                       title= "", name.axis1="PCA axis 1",
                        name.axis2="PCA axis 2")
-#colZ1=native extent
-#colZ2=Introduced extent
 
 ecospat.shift.centroids(scores.sp.nat, scores.sp.inv, scores.clim.nat, 
                         scores.clim.inv,col = "black")
@@ -433,18 +431,14 @@ ecospat.shift.centroids(scores.sp.nat, scores.sp.inv, scores.clim.nat,
 # We want to add a set of different colours 
 ecospat.plot.niche.dyn(grid.clim.nat, grid.clim.inv, quant=0.25, interest=2,
    title= "", name.axis1="PCA axis 1", name.axis2="PCA axis 2",
-   
-   # FILLS (Use darker colors here to prevent fading)
-   col.unf = "#006d2c",   # Deep Forest Green (Native)
-   col.exp = "#d94801",   # Deep Orange/Red (Expansion)
-   col.stab = "#7e0068",  # Deep Purple (Overlap - stands out clearly)
-
-   # DENSITY LINES (Keep these dark for outlines)
-   colZ1 = "#00441b",     # Darker Green
-   colZ2 = "#7f2704")     # Darker Red
+   col.unf = "#006d2c",
+   col.exp = "#d94801",
+   col.stab = "#7e0068",
+   colZ1 = "#00441b",
+   colZ2 = "#7f2704")
 
 #colZ1=native extent
-#colZ2=Introduced extent
+#colZ2=invasive extent
 
 ecospat.shift.centroids(scores.sp.nat, scores.sp.inv, scores.clim.nat, 
                         scores.clim.inv,col = "black")
@@ -455,11 +449,11 @@ ecospat.shift.centroids(scores.sp.nat, scores.sp.inv, scores.clim.nat,
 
 This creates the famous "Niche Shift" plot. It visualizes the metrics calculated above on a 2D plane (PCA Axis 1 vs PCA Axis 2).
 
-**`col.stab = "#7e0068"`:** **Stability.** This is the **Overlap**. This area represents climates where the species is found in BOTH native and introduced ranges.
+**`col.stab = "#7e0068"`:** **Stability.** This is the **Overlap**. This area represents climates where the species is found in BOTH native and invasive ranges.
 
-**`col.unf = "#006d2c"`:** **Unfilling.** This represents climates the species occupies in its native range but **does not** occupy in its introduced range (even if that climate exists there). This suggests potential areas the species could still invade in the future.
+**`col.unf = "#006d2c"`:** **Unfilling.** This represents climates the species occupies in its native range but **does not** occupy in its invasive range (even if that climate exists there). This suggests potential areas the species could still invade in the future.
 
-**`col.exp = "#d94801"`:** **Expansion.** This represents climates the species occupies in its introduced range but **does not** occupy in its native range.
+**`col.exp = "#d94801"`:** **Expansion.** This represents climates the species occupies in its invasive range but **does not** occupy in its native range.
 
 -   **`colZ1` & `colZ2`**: These outline the *available* background climate in the Native (Z1) and Invasive (Z2) ranges (the borders of the plot).
 
@@ -503,7 +497,7 @@ mess.data<-mess.data[c(1:21)]
 
 ```{r}
 #Defining projection and calibration data sets
-proj<- mess.data[657:1087,] #Projection data set (introduced range)
+proj<- mess.data[657:1087,] #Projection data set (invasive range)
 cal<-mess.data[1:656,] #Calibration data set (native range)
 ```
 
@@ -530,7 +524,7 @@ Three plots are generated
 
 In a nutshell, a MESS analysis produces a map with a scale of positive and negative values:
 
--   **Positive Values (Blue/Green):** **High Similarity.** The climate in this part of the introduced range is well-represented in our native training data. **We can trust the model predictions here.**
+-   **Positive Values (Blue/Green):** **High Similarity.** The climate in this part of the invasive range is well-represented in our native training data. **We can trust the model predictions here.**
 
 -   **Negative Values (Red):** **Novel Environment.** At least one environmental variable (e.g., Max Temperature) is outside the range of values seen in the training data. The more negative the value, the more dissimilar the environment. **Model predictions here are unreliable.**
 :::
