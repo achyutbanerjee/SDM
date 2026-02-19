@@ -376,7 +376,7 @@ The `ecospat.plot.overlap.test` plots a histogram comparing our **observed overl
 
 **If p \< 0.05 (Significant)**
 
-This means the result is **statistically significant**. You reject the null hypothesis.
+This means the result is **statistically significant**. We reject the null hypothesis.
 
 -   **Interpretation:** **Niche Conservatism.** The observed niche overlap is significantly **higher** than random expectation.
 -   **What it means biologically:** Even though the invasive region has a different climate available, the species is actively selecting the specific subset of conditions that matches its native home. It is "conserving" its niche requirements.
@@ -384,9 +384,9 @@ This means the result is **statistically significant**. You reject the null hypo
 
 **If p \> 0.05 (Not Significant)**
 
-This means the result is **not statistically significant**. You cannot reject the null hypothesis.
+This means the result is **not statistically significant**. We cannot reject the null hypothesis.
 
--   **Interpretation:** **Niche Shift (or Randomness).** The observed niche overlap is **not different** from what you would get if the species just settled randomly in the invasive range.
+-   **Interpretation:** **Niche Shift (or Randomness).** The observed niche overlap is **not different** from what we would get if the species just settled randomly in the invasive range.
 -   **What it means biologically:** The species is not strictly adhering to its native climatic preferences. It might be occupying whatever environment is most abundant in the new range, or it might have shifted its niche requirements to survive in new conditions.
 -   **Visual:** On the plot, the red line (observed D) falls **inside** the cluster of grey bars.
 :::
